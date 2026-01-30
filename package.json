@@ -1,0 +1,20 @@
+{
+  "name": "idle_buddy",
+  "version": "1.0.0",
+  "description": "A productive idle buddy for ur life",
+  "main": "main/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "keywords": [
+    "idle-buddy",
+    "electron",
+    "productive"
+  ],
+  "author": "nndall",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^40.1.0"
+  }
+}
