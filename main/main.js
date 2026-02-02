@@ -6,6 +6,9 @@ const createWindow = () => {
 	const win = new BrowserWindow({
 		width: 300,
 		height: 300,
+		alwaysOnTop: true,
+		frame: false,
+		transparent: true,
 		webPreferences: {
 			preload: path.join(__dirname, '../preload/index.js')
 		}
