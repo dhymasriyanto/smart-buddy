@@ -9,7 +9,7 @@ let blinkIndex = 0
 const blink = () => {
 	eyes.src = blinkFrames[blinkIndex++]
 	
-	if (blinkIndex > blinkFrames.length - 1) {
+	if (blinkIndex >= blinkFrames.length) {
 		blinkIndex = 0
 		return
 	}

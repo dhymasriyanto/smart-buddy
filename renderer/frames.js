@@ -29,9 +29,16 @@ export const eyesSleepTransitionFrames = [
 	'assets/eyes_closed.png',
 ]
 
-export const sleepSnoreFrames = [
+export const sleepSnoreInhaleFrames = [
 	'assets/sleep_snore_1.png',
 	'assets/sleep_snore_2.png',
 	'assets/sleep_snore_3.png',
 	'assets/sleep_snore_4.png',
+]
+
+export const sleepSnoreExhaleFrames = [
+	'assets/sleep_snore_4.png',
+	'assets/sleep_snore_3.png',
+	'assets/sleep_snore_2.png',
+	'assets/sleep_snore_1.png',
 ]

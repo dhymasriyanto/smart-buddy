@@ -18,7 +18,7 @@ export const breath = () => {
 	
 	body.src = breathFrames[breathIndex++]
 	
-	if (breathIndex > breathFrames.length - 1) {
+	if (breathIndex >= breathFrames.length) {
 		breathIndex = 0
 		return
 	}
