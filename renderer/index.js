@@ -1,6 +1,6 @@
 import { face } from "./face-animation.js";
 import { breath } from "./breath-animation.js";
-import { sleep, sleepTransition } from "./sleep-animation.js";
+import { sleepTransition, stopSleeping } from "./sleep-animation.js";
 
 // Lets make some state
 // i.e. : idle | sleeping | walking | lifted
@@ -19,11 +19,15 @@ setInterval(() => {
 	breath()
 }, 5000)
 
+// Mendengarkan Event
 addEventListener('keydown', (e) => {
+  // Cek jika ada Event dengan keydown 's' maka masuk ke dalam state sleeping
 	if (e.key === 's') {
-		state = 'sleeping'
+	  // Tandai state sekarang menjadi sleeping
+		state = state == 'idle' ? 'sleeping' : 'idle'
 		
-		sleepTransition()
-		setInterval(sleep, 2000)
+		// Masuk ke dalam sleep transition
+		if (state === 'sleeping') sleepTransition()
+		else stopSleeping()
 	}
 })
