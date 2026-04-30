@@ -1,6 +1,8 @@
 const VALID_STATES = [
   'idle',
-  'sleeping',
+  'sleep_transition',
+  'sleep_inhale',
+  'sleep_exhale',
   'walking'
 ]
 
