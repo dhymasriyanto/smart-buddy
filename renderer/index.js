@@ -8,17 +8,20 @@ import { getState } from "./state.js"
 // i.e. : idle | sleeping | walking | lifted
 import { currentState, setState } from "./state.js"
 
+
+// TODO
+// Kalau bisa jangan pakai setInterval karena ketika semisal dalam sleep transition, dan dia masih terbaca idle, lalu kita klik s atau sleep, maka dia akan bug, karena menganggap ini adalah saatnya untuk melakukan perintah face atau breath
+
+// Sepertinya aku harus ubah menjadi memakai listener di state, supaya dia ngabaca nya secara terus menerus, ga pake setInterval, jadi ngebaca nya via state yang sedang berlangsung.
+
+
 // Set animation recursively
 setInterval(() => {
-	if (currentState !== 'idle') return
-	
-	face()
+	if (currentState === 'idle') face()
 }, 1500)
 
 setInterval(() => {
-	if (currentState !== 'idle') return
-		
-	breath()
+	if (currentState === 'idle') breath()
 }, 5000)
 
 // Mendengarkan Event
