@@ -1,10 +1,9 @@
 import { face } from './face-animation.js'
 import { breath } from './breath-animation.js'
 import { sleepTransition, stopSleeping } from './sleep-animation.js'
-import { getState } from './state.js'
 
 // Lets make some state
-// i.e. : idle | sleeping | walking | lifted
+// i.e. : idle | sleep_transition | walking | lifted
 import { currentState, setState } from './state.js'
 
 // TODO
@@ -12,26 +11,73 @@ import { currentState, setState } from './state.js'
 
 // Sepertinya aku harus ubah menjadi memakai listener di state, supaya dia ngabaca nya secara terus menerus, ga pake setInterval, jadi ngebaca nya via state yang sedang berlangsung.
 
-// Set animation recursively
-setInterval(() => {
-  if (currentState === 'idle') face()
-}, 1500)
+let faceInterval = null,
+  breathInterval = null,
+  lastInteractionTime = Date.now()
 
-setInterval(() => {
-  if (currentState === 'idle') breath()
-}, 5000)
+export const startIdleAnimations = () => {
+  stopIdleAnimations()
+
+  // Set animation recursively
+  faceInterval = setInterval(() => {
+    if (currentState !== 'idle') return
+    face()
+  }, 1500)
+
+  breathInterval = setInterval(() => {
+    if (currentState !== 'idle') return
+    breath()
+  }, 5000)
+}
+
+export const stopIdleAnimations = () => {
+  if (faceInterval) clearInterval(faceInterval)
+  if (breathInterval) clearInterval(breathInterval)
+
+  faceInterval = null
+  breathInterval = null
+}
+
+export const resetIdleTimer = () => {}
 
 // Mendengarkan Event
 addEventListener('keydown', (e) => {
   // Cek jika ada Event dengan keydown 's' maka masuk ke dalam state sleeping
   if (e.key === 's') {
-    // Tandai state sekarang menjadi sleeping
-    setState(currentState === 'idle' ? 'sleep_transition' : 'idle')
+    // cek apakah state idle atau tidak
+    const wasIdle = currentState === 'idle'
 
-    // Masuk ke dalam sleep transition
-    if (currentState === 'sleep_transition') sleepTransition()
-    else {
+    // Tandai state sekarang menjadi sleeping jika idle, dan idle jika sleeping
+    setState(wasIdle ? 'sleep_transition' : 'idle')
+
+    // jika idle stop idle animasi dan jalan kan sleep transisi
+    if (wasIdle) {
+      stopIdleAnimations()
+      sleepTransition()
+    } else {
+      // jika tidak idle, maka kebalikannya, dan jadikan last interaction terbaru
       stopSleeping()
+      startIdleAnimations()
     }
+    lastInteractionTime = Date.now()
   }
 })
+
+// Kita akan membuat sebuah estimasi perhitungan ketika idle state sudah melebihi 30 detik, maka otomatis masuk ke sleep_transtition
+// dan ketika ada mouse hover ke character, maka otomatis wake up (idle state)
+
+// Kita akan buat sebuah fungsi interval yang akan mengecek setiap 1 detik sekali dengan berlandaskan lastInteractionTime, dimana terakhir kali interaksi akan di simpan, lalu akan di cek dengan detik terakhir itu, apakah sudah lebih dari 30 detik maka lakukan transisi, nanti akan kita buat juga fungsi reset transisi sehingga lastInteractionTime akan menjadi terbaru sesuai dengan interaksi terakhir ntah mouseup atau pun yang lainnya.
+setInterval(() => {
+  let idleTime = Date.now() - lastInteractionTime
+
+  if (idleTime > 30000) {
+    if (currentState === 'idle') {
+      setState('sleep_transition')
+      stopIdleAnimations()
+      sleepTransition()
+      lastInteractionTime = Date.now()
+    }
+  }
+}, 1000)
+
+startIdleAnimations()

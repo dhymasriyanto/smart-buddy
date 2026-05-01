@@ -12,14 +12,16 @@ const eyes = document.getElementById('eyes')
 const mouth = document.getElementById('mouth')
 
 // Set index awal 0
-let index = 0
-
-let inhaleId = null,
+let index = 0,
+  inhaleId = null,
   exhaleId = null,
-  sleepTransitionId = null
+  sleepTransitionId = null,
+  // Set index untuk inhale dan exhale = 0
+  indexInhale = 0,
+  indexExhale = 0
 
 export const sleepTransition = () => {
-  if (currentState === 'idle') return
+  if (getState() === 'idle') return
 
   // Jika index melebihi dari jumlah frame sleepTransitionFrames maka reset index menjadi 0 dan buat posisi body dalam keadaan tidur dan hilangkan mulut karena tidur menggunakan animasi mulut saat tidur sendiri
   // Set juga posisi mata di dibawah (y = 10) dan agak ke kiri (x = -1), lalu masuk ke state tidur dan keluar (return)
@@ -46,10 +48,6 @@ export const sleepTransition = () => {
   // setelah 120ms transition akan memanggil sleepTransition dan karena index sudah berubah nilai nya maka akan ke assets animasi yang selanjutnya sampai akhirnya di return (keluar)
   sleepTransitionId = setTimeout(sleepTransition, 120)
 }
-
-// Set index untuk inhale dan exhale = 0
-let indexInhale = 0,
-  indexExhale = 0
 
 export const inhale = () => {
   if (currentState === 'idle') return
@@ -112,14 +110,7 @@ export const sleep = () => {
   inhale()
 }
 
-export const wakeUpTransition = () => {
-  if (currentState === 'idle') return
-
-  // TODO: Wake up transition
-}
-
 export const stopSleeping = () => {
-  console.log('AJWIKajdia')
   // Kita harus bisa membuat sebuah kondisi dimana nantinya ketika di tekan 's' lagi maka animasi tidur akan berhenti
 
   clearTimeout(inhaleId)
@@ -141,7 +132,5 @@ export const stopSleeping = () => {
   setPosition(mouth, 0, 0)
   setPosition(eyes, 0, 0)
 
-  console.log(getState())
   setState('idle')
-  console.log(getState())
 }

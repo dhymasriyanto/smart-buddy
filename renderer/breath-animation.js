@@ -1,5 +1,6 @@
 import { setPosition } from './utils.js'
 import { breathFrames } from './frames.js'
+import { getState } from './state.js'
 
 const body = document.getElementById('body')
 const eyes = document.getElementById('eyes')
@@ -8,6 +9,8 @@ const mouth = document.getElementById('mouth')
 let breathIndex = 0
 
 export const breath = () => {
+  if (getState() !== 'idle') return
+
   if (breathIndex !== breathFrames.length - 1) {
     eyes.style.transform = setPosition(eyes, 0, -1)
     mouth.style.transform = setPosition(mouth, 0, -1)
@@ -23,5 +26,7 @@ export const breath = () => {
     return
   }
 
-  setTimeout(breath, 300)
+  if (getState() === 'idle') {
+    setTimeout(breath, 300)
+  }
 }

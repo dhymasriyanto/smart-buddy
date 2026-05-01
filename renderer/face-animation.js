@@ -1,4 +1,5 @@
 import { blinkFrames } from './frames.js'
+import { getState } from './state.js'
 
 const eyes = document.getElementById('eyes')
 const mouth = document.getElementById('mouth')
@@ -18,6 +19,8 @@ const blink = () => {
 }
 
 export const face = () => {
+  if (getState() !== 'idle') return
+
   const randomEyes = Math.random()
 
   if (randomEyes < 0.2) {
