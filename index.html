@@ -1,36 +1,37 @@
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Smart Buddy</title>
-	
-	<style>
-		body, div {
-			margin: 0;
-			background: transparent;
-		}
-		
-		#character {
-			position: relative;
-			width: 256px;
-			height: 256px;
-			app-region: drag;
-			user-select: none;
-		}
-		
-		#character img {
-			position: absolute;
-			width: 256px;
-			height: 256px;
-		}
-	</style>
-</head>
-	<body>
-		<div id="character">
-			<img id="body" src="./assets/body_idle_1.png">
-			<img id="eyes" src="./assets/eyes_closed.png">
-			<img id="mouth" src="./assets/mouth_closed.png">
-		</div>
-	</body>
-	<script type="module" src="./renderer/index.js"></script>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Smart Buddy</title>
+
+        <style>
+            body,
+            div {
+                margin: 0;
+                background: transparent;
+            }
+
+            #character {
+                position: relative;
+                width: 256px;
+                height: 256px;
+                app-region: drag;
+                user-select: none;
+            }
+
+            #character img {
+                position: absolute;
+                width: 256px;
+                height: 256px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="character">
+            <img id="body" src="./assets/body_idle_1.png" />
+            <img id="eyes" src="./assets/eyes_closed.png" />
+            <img id="mouth" src="./assets/mouth_closed.png" />
+        </div>
+    </body>
+    <script type="module" src="./renderer/index.js"></script>
 </html>

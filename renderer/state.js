@@ -3,7 +3,7 @@ const VALID_STATES = [
   'sleep_transition',
   'sleep_inhale',
   'sleep_exhale',
-  'walking'
+  'walking',
 ]
 
 export let currentState = 'idle'
