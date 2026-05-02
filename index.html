@@ -9,20 +9,25 @@
             div {
                 margin: 0;
                 background: transparent;
+                overflow: hidden;
             }
 
             #character {
                 position: relative;
                 width: 256px;
                 height: 256px;
-                app-region: drag;
                 user-select: none;
+                overflow: hidden;
+                app-region: no-drag;
             }
 
             #character img {
                 position: absolute;
                 width: 256px;
                 height: 256px;
+                -webkit-user-drag: none;
+                user-select: none;
+                pointer-events: none;
             }
         </style>
     </head>
