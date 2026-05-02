@@ -4,7 +4,7 @@ import { sleepTransition, stopSleeping } from './sleep-animation.js'
 
 // Lets make some state
 // i.e. : idle | sleep_transition | walking | lifted
-import { currentState, setState } from './state.js'
+import { currentState, getState, setState } from './state.js'
 
 // TODO
 // Kalau bisa jangan pakai setInterval karena ketika semisal dalam sleep transition, dan dia masih terbaca idle, lalu kita klik s atau sleep, maka dia akan bug, karena menganggap ini adalah saatnya untuk melakukan perintah face atau breath
@@ -41,7 +41,7 @@ export const stopIdleAnimations = () => {
 export const resetIdleTimer = () => {}
 
 // Mendengarkan Event
-addEventListener('keydown', (e) => {
+document.addEventListener('keydown', (e) => {
   // Cek jika ada Event dengan keydown 's' maka masuk ke dalam state sleeping
   if (e.key === 's') {
     // cek apakah state idle atau tidak
@@ -63,6 +63,38 @@ addEventListener('keydown', (e) => {
   }
 })
 
+let isDragging = false,
+  dragOffsetX = 0,
+  dragOffsetY = 0
+
+document.addEventListener('mousedown', (e) => {
+  isDragging = true
+
+  dragOffsetX = e.offsetX
+  dragOffsetY = e.offsetY
+})
+
+document.addEventListener('mouseup', (e) => {
+  isDragging = false
+
+  lastInteractionTime = Date.now()
+})
+
+document.addEventListener('mousemove', (e) => {
+  if (getState() !== 'idle') {
+    if (getState() === 'sleep_transition') stopSleeping()
+    // Harusnya disini start animasi panic.
+    startIdleAnimations()
+    // Harusnya lastInteractionTime itu di mouseup
+    //lastInteractionTime = Date.now()
+  }
+
+  if (!isDragging) return
+  if (!window.api) return
+
+  window.api.moveWindow(e.screenX - dragOffsetX, e.screenY - dragOffsetY)
+})
+
 // Kita akan membuat sebuah estimasi perhitungan ketika idle state sudah melebihi 30 detik, maka otomatis masuk ke sleep_transtition
 // dan ketika ada mouse hover ke character, maka otomatis wake up (idle state)
 
@@ -70,7 +102,7 @@ addEventListener('keydown', (e) => {
 setInterval(() => {
   let idleTime = Date.now() - lastInteractionTime
 
-  if (idleTime > 30000) {
+  if (idleTime > 5000) {
     if (currentState === 'idle') {
       setState('sleep_transition')
       stopIdleAnimations()
