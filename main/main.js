@@ -9,6 +9,7 @@ const createWindow = () => {
     alwaysOnTop: true,
     frame: false,
     transparent: true,
+    resizable: false,
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),
     },
@@ -20,6 +21,12 @@ const createWindow = () => {
 app.whenReady().then(() => {
   ipcMain.handle('ping', () => 'pong')
 
+  ipcMain.on('move-window', (event, { x, y }) => {
+    const win = BrowserWindow.fromWebContents(event.sender)
+
+    win.setPosition(x, y)
+  })
+  
   createWindow()
 
   app.on('activate', () => {
