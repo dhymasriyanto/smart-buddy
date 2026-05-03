@@ -6,6 +6,10 @@ const createWindow = () => {
   const win = new BrowserWindow({
     width: 300,
     height: 300,
+    minHeight: 300,
+    minWidth: 300,
+    maxHeight: 300,
+    maxWidth: 300,
     alwaysOnTop: true,
     frame: false,
     transparent: true,
@@ -18,13 +22,40 @@ const createWindow = () => {
   win.loadFile('index.html')
 }
 
+app.disableHardwareAcceleration()
+
 app.whenReady().then(() => {
   ipcMain.handle('ping', () => 'pong')
 
-  ipcMain.on('move-window', (event, { x, y }) => {
+  let dragStartX = 0, dragStartY = 0
+
+  ipcMain.on('start-drag', (event) => {
+    const win = BrowserWindow.fromWebContents(event.sender)
+    if (!win) return
+    const [x, y] = win.getPosition()
+    win.setBounds({
+      x: x,
+      y: y,
+      width: 300,
+      height: 300,
+    })
+    dragStartX = x
+    dragStartY = y
+  })
+
+  ipcMain.on('move-window', (event, { dx, dy }) => {
     const win = BrowserWindow.fromWebContents(event.sender)
 
-    win.setPosition(x, y)
+    if (!win) return
+
+    // how to dont resize when move window?
+    
+    win.setBounds({
+      x: Math.round(dragStartX + dx),
+      y: Math.round(dragStartY + dy),
+      width: 300,
+      height: 300,  
+    })
   })
   
   createWindow()
