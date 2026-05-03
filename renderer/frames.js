@@ -42,3 +42,10 @@ export const sleepSnoreExhaleFrames = [
   'assets/sleep_snore_2.png',
   'assets/sleep_snore_1.png',
 ]
+
+export const liftedFrames = [
+  'assets/body_lifted_1.png',
+  'assets/body_lifted_2.png',
+  'assets/body_lifted_3.png',
+  'assets/body_lifted_2.png',
+]
