@@ -1,5 +1,6 @@
 import { face } from './face-animation.js'
 import { breath } from './breath-animation.js'
+import { lifted } from './lifted-animation.js'
 import { sleepTransition, stopSleeping } from './sleep-animation.js'
 
 // Lets make some state
@@ -64,35 +65,53 @@ document.addEventListener('keydown', (e) => {
 })
 
 let isDragging = false,
-  dragOffsetX = 0,
-  dragOffsetY = 0
+  lastMouseX = 0,
+  lastMouseY = 0
+
+document.addEventListener('focus', () => {
+  if (currentState === 'sleep_transition') stopSleeping()
+  lastInteractionTime = Date.now()
+})
 
 document.addEventListener('mousedown', (e) => {
   isDragging = true
 
-  dragOffsetX = e.offsetX
-  dragOffsetY = e.offsetY
+  lastMouseX = e.screenX
+  lastMouseY = e.screenY
+
+  window.api?.startDrag()
+  
+  setState('lifted')
+  
+  lifted()
 })
 
 document.addEventListener('mouseup', (e) => {
   isDragging = false
 
   lastInteractionTime = Date.now()
+
+  stopSleeping()
 })
 
 document.addEventListener('mousemove', (e) => {
-  if (getState() !== 'idle') {
-    if (getState() === 'sleep_transition') stopSleeping()
+  // if (getState() !== 'idle') {
+    // if (getState() === 'sleep_transition') stopSleeping()
     // Harusnya disini start animasi panic.
-    startIdleAnimations()
+    // startIdleAnimations()
     // Harusnya lastInteractionTime itu di mouseup
     //lastInteractionTime = Date.now()
-  }
-
+  // }
+  
   if (!isDragging) return
   if (!window.api) return
 
-  window.api.moveWindow(e.screenX - dragOffsetX, e.screenY - dragOffsetY)
+  // const dpr = window.devicePixelRatio || 1
+  
+  window.api.moveWindow((e.screenX - lastMouseX), (e.screenY - lastMouseY))
+
+  // lastMouseX = e.screenX
+  // lastMouseY = e.screenY
 })
 
 // Kita akan membuat sebuah estimasi perhitungan ketika idle state sudah melebihi 30 detik, maka otomatis masuk ke sleep_transtition
