@@ -1,6 +1,6 @@
 import { face } from './face-animation.js'
 import { breath } from './breath-animation.js'
-import { lifted } from './lifted-animation.js'
+import { lifted, stopLifted } from './lifted-animation.js'
 import { sleepTransition, stopSleeping } from './sleep-animation.js'
 
 // Lets make some state
@@ -23,7 +23,7 @@ export const startIdleAnimations = () => {
   faceInterval = setInterval(() => {
     if (currentState !== 'idle') return
     face()
-  }, 1500)
+  }, 1000)
 
   breathInterval = setInterval(() => {
     if (currentState !== 'idle') return
@@ -70,6 +70,9 @@ let isDragging = false,
 
 document.addEventListener('focus', () => {
   if (currentState === 'sleep_transition') stopSleeping()
+  
+  startIdleAnimations()
+  
   lastInteractionTime = Date.now()
 })
 
@@ -83,7 +86,7 @@ document.addEventListener('mousedown', (e) => {
   
   setState('lifted')
   
-  lifted()
+  lifted(Date.now())
 })
 
 document.addEventListener('mouseup', (e) => {
@@ -91,17 +94,19 @@ document.addEventListener('mouseup', (e) => {
 
   lastInteractionTime = Date.now()
 
+  if (getState() === 'lifted') stopLifted()
   stopSleeping()
+  startIdleAnimations()
 })
 
 document.addEventListener('mousemove', (e) => {
-  // if (getState() !== 'idle') {
-    // if (getState() === 'sleep_transition') stopSleeping()
+  if (getState() !== 'idle') {
+    if (getState() === 'sleep_transition') stopSleeping()
     // Harusnya disini start animasi panic.
-    // startIdleAnimations()
     // Harusnya lastInteractionTime itu di mouseup
-    //lastInteractionTime = Date.now()
-  // }
+    lastInteractionTime = Date.now()
+    startIdleAnimations()
+  }
   
   if (!isDragging) return
   if (!window.api) return
@@ -121,7 +126,7 @@ document.addEventListener('mousemove', (e) => {
 setInterval(() => {
   let idleTime = Date.now() - lastInteractionTime
 
-  if (idleTime > 5000) {
+  if (idleTime > 20000) {
     if (currentState === 'idle') {
       setState('sleep_transition')
       stopIdleAnimations()
