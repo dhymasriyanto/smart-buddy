@@ -126,6 +126,7 @@ export const stopSleeping = () => {
 
   body.src = 'assets/body_idle_1.png'
   if (mouth.style.display === 'none') mouth.style.display = 'block'
+  if (eyes.style.display === 'none') eyes.style.display = 'block'
   mouth.src = 'assets/mouth_2.png'
   eyes.src = 'assets/eyes_4.png'
 
