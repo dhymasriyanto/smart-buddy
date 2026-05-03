@@ -49,3 +49,8 @@ export const liftedFrames = [
   'assets/body_lifted_3.png',
   'assets/body_lifted_2.png',
 ]
+
+export const panicFrames = [
+  'assets/panic_effect_1.png',
+  'assets/panic_effect_2.png',
+]
