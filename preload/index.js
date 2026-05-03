@@ -8,5 +8,6 @@ contextBridge.exposeInMainWorld('versions', {
 })
 
 contextBridge.exposeInMainWorld('api', {
-  moveWindow: (x, y) => ipcRenderer.send('move-window', {x, y}) 
+  startDrag: () => ipcRenderer.send('start-drag'),
+  moveWindow: (dx, dy) => ipcRenderer.send('move-window', {dx, dy}) 
 })
