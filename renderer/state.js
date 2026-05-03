@@ -3,6 +3,7 @@ const VALID_STATES = [
   'sleep_transition',
   'sleep_inhale',
   'sleep_exhale',
+  'lifted',
   'walking',
 ]
 
