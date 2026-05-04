@@ -54,3 +54,10 @@ export const panicFrames = [
   'assets/panic_effect_1.png',
   'assets/panic_effect_2.png',
 ]
+
+export const walkFrames = [
+  'assets/body_walk_1.png',
+  'assets/body_walk_2.png',
+  'assets/body_walk_3.png',
+  'assets/body_walk_2.png',
+]
