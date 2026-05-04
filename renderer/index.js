@@ -2,6 +2,7 @@ import { face } from './face-animation.js'
 import { breath } from './breath-animation.js'
 import { lifted, stopLifted } from './lifted-animation.js'
 import { sleepTransition, stopSleeping } from './sleep-animation.js'
+import { walk } from './walk-animation.js'
 
 // Lets make some state
 // i.e. : idle | sleep_transition | walking | lifted
@@ -126,12 +127,21 @@ document.addEventListener('mousemove', (e) => {
 setInterval(() => {
   let idleTime = Date.now() - lastInteractionTime
 
-  if (idleTime > 20000) {
+  if (idleTime > 60000) {
     if (currentState === 'idle') {
       setState('sleep_transition')
       stopIdleAnimations()
       sleepTransition()
       lastInteractionTime = Date.now()
+    }
+  }
+
+  if (idleTime > 10000) {
+    if (currentState === 'idle') {
+      setState('walking')
+      stopIdleAnimations()
+      lastInteractionTime = Date.now()
+      walk(lastInteractionTime)
     }
   }
 }, 1000)
