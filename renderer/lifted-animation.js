@@ -42,7 +42,7 @@ let indexPanic = 0
 
 export const panicEffect = () => {
 
-  if (getState() !== 'lifted') return
+  if (getState() !== 'lifted' && getState() !== 'walking') return
 
   if (indexPanic >= panicFrames.length) {
     indexPanic = 0
