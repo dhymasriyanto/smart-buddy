@@ -5,7 +5,7 @@ import {
   sleepSnoreExhaleFrames,
 } from './frames.js'
 import { setPosition } from './utils.js'
-import { currentState, getState, setState } from './state.js'
+import { getState, setState } from './state.js'
 
 const body = document.getElementById('body')
 const eyes = document.getElementById('eyes')
@@ -50,7 +50,7 @@ export const sleepTransition = () => {
 }
 
 export const inhale = () => {
-  if (currentState === 'idle') return
+  if (getState() === 'idle') return
   if (indexInhale === 0) body.src = 'assets/body_sleep_1.png'
 
   // Pada saat penarikan nafas, animasi body sleep akan menggunakan body_sleep_2 (yaitu posisi badan seakan menarik ke atas tanpa wajah (yang nanti di animasikan di sini))
@@ -79,7 +79,7 @@ export const inhale = () => {
 }
 
 export const exhale = () => {
-  if (currentState === 'idle') return
+  if (getState() === 'idle') return
 
   if (indexExhale == 1) {
     setPosition(eyes, -1, 11)

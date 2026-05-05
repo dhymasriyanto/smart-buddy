@@ -6,7 +6,7 @@ import { walk } from './walk-animation.js'
 
 // Lets make some state
 // i.e. : idle | sleep_transition | walking | lifted
-import { currentState, getState, setState } from './state.js'
+import { getState, setState } from './state.js'
 
 // TODO
 // Kalau bisa jangan pakai setInterval karena ketika semisal dalam sleep transition, dan dia masih terbaca idle, lalu kita klik s atau sleep, maka dia akan bug, karena menganggap ini adalah saatnya untuk melakukan perintah face atau breath
@@ -22,12 +22,12 @@ export const startIdleAnimations = () => {
 
   // Set animation recursively
   faceInterval = setInterval(() => {
-    if (currentState !== 'idle') return
+    if (getState() !== 'idle') return
     face()
   }, 1000)
 
   breathInterval = setInterval(() => {
-    if (currentState !== 'idle') return
+    if (getState() !== 'idle') return
     breath()
   }, 5000)
 }
@@ -47,7 +47,7 @@ document.addEventListener('keydown', (e) => {
   // Cek jika ada Event dengan keydown 's' maka masuk ke dalam state sleeping
   if (e.key === 's') {
     // cek apakah state idle atau tidak
-    const wasIdle = currentState === 'idle'
+    const wasIdle = getState() === 'idle'
 
     // Tandai state sekarang menjadi sleeping jika idle, dan idle jika sleeping
     setState(wasIdle ? 'sleep_transition' : 'idle')
@@ -70,7 +70,7 @@ let isDragging = false,
   lastMouseY = 0
 
 document.addEventListener('focus', () => {
-  if (currentState === 'sleep_transition') stopSleeping()
+  if (getState() === 'sleep_transition') stopSleeping()
   
   startIdleAnimations()
   
@@ -128,7 +128,7 @@ setInterval(() => {
   let idleTime = Date.now() - lastInteractionTime
 
   if (idleTime > 60000) {
-    if (currentState === 'idle') {
+    if (getState() === 'idle') {
       setState('sleep_transition')
       stopIdleAnimations()
       sleepTransition()
@@ -137,7 +137,7 @@ setInterval(() => {
   }
 
   if (idleTime > 10000) {
-    if (currentState === 'idle') {
+    if (getState() === 'idle') {
       setState('walking')
       stopIdleAnimations()
       lastInteractionTime = Date.now()

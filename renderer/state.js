@@ -7,7 +7,7 @@ const VALID_STATES = [
   'walking',
 ]
 
-export let currentState = 'idle'
+let currentState = 'idle'
 
 export const getState = () => currentState
 
