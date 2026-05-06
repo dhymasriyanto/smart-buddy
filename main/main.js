@@ -57,6 +57,18 @@ app.whenReady().then(() => {
       height: 300,  
     })
   })
+
+  ipcMain.on('walk', (event, { x }) => {
+    const win = BrowserWindow.fromWebContents(event.sender)
+    
+    if (!win) return
+
+    win.setBounds({
+      x: x,
+      width: 300,
+      height: 300
+    })
+  })
   
   createWindow()
 

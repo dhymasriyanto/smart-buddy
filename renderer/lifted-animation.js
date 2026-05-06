@@ -7,11 +7,11 @@ const eyes = document.getElementById('eyes')
 const panic = document.getElementById('panic')
 
 let index = 0,
-  liftedId,
-  panicId,
-  lastLifted,
+  liftedId = null,
+  lastLifted = null,
   panicStarted = false
 
+export let panicId = null
 
 export const lifted = (lastInteractionLifted = null) => {
   if (getState() !== 'lifted') return

@@ -4,7 +4,7 @@ import {
   sleepSnoreInhaleFrames,
   sleepSnoreExhaleFrames,
 } from './frames.js'
-import { setPosition } from './utils.js'
+import { resetAnimation, setPosition } from './utils.js'
 import { getState, setState } from './state.js'
 
 const body = document.getElementById('body')
@@ -124,14 +124,5 @@ export const stopSleeping = () => {
   indexInhale = 0
   indexExhale = 0
 
-  body.src = 'assets/body_idle_1.png'
-  if (mouth.style.display === 'none') mouth.style.display = 'block'
-  if (eyes.style.display === 'none') eyes.style.display = 'block'
-  mouth.src = 'assets/mouth_2.png'
-  eyes.src = 'assets/eyes_4.png'
-
-  setPosition(mouth, 0, 0)
-  setPosition(eyes, 0, 0)
-
-  setState('idle')
+  resetAnimation()
 }

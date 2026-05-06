@@ -2,7 +2,7 @@ import { face } from './face-animation.js'
 import { breath } from './breath-animation.js'
 import { lifted, stopLifted } from './lifted-animation.js'
 import { sleepTransition, stopSleeping } from './sleep-animation.js'
-import { walk } from './walk-animation.js'
+import { walk, stopWalking, startWalking } from './walk-animation.js'
 
 // Lets make some state
 // i.e. : idle | sleep_transition | walking | lifted
@@ -63,6 +63,20 @@ document.addEventListener('keydown', (e) => {
     }
     lastInteractionTime = Date.now()
   }
+
+  if (e.key === 'w') {
+    const wasIdle = getState() === 'idle'
+
+    setState(wasIdle ? 'walking' : 'idle')
+
+    if (wasIdle) {
+      stopIdleAnimations()
+      startWalking()
+    } else {
+      stopWalking()
+      startIdleAnimations()
+    }
+  }
 })
 
 let isDragging = false,
@@ -103,6 +117,7 @@ document.addEventListener('mouseup', (e) => {
 document.addEventListener('mousemove', (e) => {
   if (getState() !== 'idle') {
     if (getState() === 'sleep_transition') stopSleeping()
+    if (getState() === 'walking') stopWalking()
     // Harusnya disini start animasi panic.
     // Harusnya lastInteractionTime itu di mouseup
     lastInteractionTime = Date.now()
@@ -127,23 +142,24 @@ document.addEventListener('mousemove', (e) => {
 setInterval(() => {
   let idleTime = Date.now() - lastInteractionTime
 
-  if (idleTime > 60000) {
-    if (getState() === 'idle') {
-      setState('sleep_transition')
-      stopIdleAnimations()
-      sleepTransition()
-      lastInteractionTime = Date.now()
-    }
-  }
+  // if (idleTime > 60000) {
+  //   if (getState() === 'idle') {
+  //     setState('sleep_transition')
+  //     stopIdleAnimations()
+  //     sleepTransition()
+  //     lastInteractionTime = Date.now()
+  //   }
+  // }
 
-  if (idleTime > 10000) {
-    if (getState() === 'idle') {
-      setState('walking')
-      stopIdleAnimations()
-      lastInteractionTime = Date.now()
-      walk(lastInteractionTime)
-    }
-  }
+  // if (idleTime > 10000) {
+  //   if (getState() === 'idle') {
+  //     setState('walking')
+  //     stopIdleAnimations()
+  //     lastInteractionTime = Date.now()
+  //     walk(lastInteractionTime)
+  // startWalking()
+  //   }
+  // }
 }, 1000)
 
 startIdleAnimations()
