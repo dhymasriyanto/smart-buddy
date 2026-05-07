@@ -49,6 +49,8 @@ app.whenReady().then(() => {
     if (!win) return
 
     // how to dont resize when move window?
+    // 
+    // TODO; kita akan membuat drag mouse itu ga boleh ngelebihi area screen kita
     
     win.setBounds({
       x: Math.round(dragStartX + dx),
