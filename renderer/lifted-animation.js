@@ -1,5 +1,6 @@
 import { liftedFrames, panicFrames } from './frames.js'
 import { getState } from './state.js'
+import { resetAnimation } from './utils.js'
 
 const body = document.getElementById('body')
 const mouth = document.getElementById('mouth')
@@ -61,7 +62,8 @@ export const stopLifted = () => {
   indexPanic = 0
   panicStarted = false
 
+  resetAnimation()
   // mouth.style.display = 'block'
   // eyes.style.display = 'block'
-  panic.style.display = 'none'
+  // panic.style.display = 'none'
 }

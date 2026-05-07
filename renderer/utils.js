@@ -1,4 +1,3 @@
-import { startIdleAnimations } from "./index.js"
 import { setState } from "./state.js"
 
 export const setPosition = (type, x, y) => {
@@ -26,5 +25,4 @@ export const resetAnimation = () => {
   setPosition(eyes, 0, 0)
 
   setState('idle')
-
 }

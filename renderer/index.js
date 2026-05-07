@@ -2,7 +2,7 @@ import { face } from './face-animation.js'
 import { breath } from './breath-animation.js'
 import { lifted, stopLifted } from './lifted-animation.js'
 import { sleepTransition, stopSleeping } from './sleep-animation.js'
-import { walk, stopWalking, startWalking } from './walk-animation.js'
+import { stopWalking, startWalking } from './walk-animation.js'
 
 // Lets make some state
 // i.e. : idle | sleep_transition | walking | lifted
@@ -110,7 +110,8 @@ document.addEventListener('mouseup', (e) => {
   lastInteractionTime = Date.now()
 
   if (getState() === 'lifted') stopLifted()
-  stopSleeping()
+  // stopSleeping()
+  // resetAnimation()
   startIdleAnimations()
 })
 

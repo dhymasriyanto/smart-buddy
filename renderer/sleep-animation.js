@@ -5,7 +5,7 @@ import {
   sleepSnoreExhaleFrames,
 } from './frames.js'
 import { resetAnimation, setPosition } from './utils.js'
-import { getState, setState } from './state.js'
+import { getState } from './state.js'
 
 const body = document.getElementById('body')
 const eyes = document.getElementById('eyes')
