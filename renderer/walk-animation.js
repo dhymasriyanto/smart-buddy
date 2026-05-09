@@ -70,7 +70,7 @@ export const walk = (lastWalkTime = null) => {
 }
 
 export const startWalking = () => {
-  if (Math.random() < 0.7) {
+  if (Math.random() < 0.5) {
     /// kalau dia di pojok , dan dia malah ke arah pojoknya, itu akan ngebuat dia flipped dan mala stopped nanti
     //
     flipImage(body)
