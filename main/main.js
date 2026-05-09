@@ -1,19 +1,20 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, screen } = require('electron')
 const { ipcMain } = require('electron/main')
 const path = require('node:path')
 
 const createWindow = () => {
   const win = new BrowserWindow({
-    width: 300,
-    height: 300,
-    minHeight: 300,
-    minWidth: 300,
-    maxHeight: 300,
-    maxWidth: 300,
+    width: 256,
+    height: 256,
+    minHeight: 256,
+    minWidth: 256,
+    maxHeight: 256,
+    maxWidth: 256,
     alwaysOnTop: true,
     frame: false,
     transparent: true,
     resizable: false,
+    skipTaskbar: true,
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),
     },
@@ -33,12 +34,12 @@ app.whenReady().then(() => {
     const win = BrowserWindow.fromWebContents(event.sender)
     if (!win) return
     const [x, y] = win.getPosition()
-    win.setBounds({
-      x: x,
-      y: y,
-      width: 300,
-      height: 300,
-    })
+    // win.setBounds({
+    //   x: x,
+    //   y: y,
+    //   width: 256,
+    //   height: 256,
+    // })
     dragStartX = x
     dragStartY = y
   })
@@ -48,15 +49,34 @@ app.whenReady().then(() => {
 
     if (!win) return
 
+    // TODO: bikin kodingan boundary di bawah jadi lebih ringkas.
+
+    let mouseX = dragStartX + dx
+    let mouseY = dragStartY + dy
+
+    const taskbar = screen.getPrimaryDisplay().bounds.height - screen.getPrimaryDisplay().workArea.height
+
+    const boundLeft = screen.getPrimaryDisplay().workArea.x
+    const boundRight = screen.getPrimaryDisplay().workArea.width - win.getBounds().width
+    const boundTop = screen.getPrimaryDisplay().workArea.y
+    const boundBottom = screen.getPrimaryDisplay().workArea.height - win.getBounds().height + taskbar
+
+    if (mouseX <= boundLeft) mouseX = boundLeft
+    if (mouseX >= boundRight) mouseX = boundRight
+    if (mouseY <= boundTop) mouseY = boundTop
+    if (mouseY >= boundBottom) mouseY = boundBottom
+   
     // how to dont resize when move window?
     // 
-    // TODO; kita akan membuat drag mouse itu ga boleh ngelebihi area screen kita
+    // TODO; kita akan membuat drag mouse itu ga boleh ngelebihi area screen kita [done]
+    // TODO: gimana caranya supaya mungkin jarak atas kanan kiri itu lebih dekat (kecuali memang ada menu yang muncul)
+    // animasi gravitasi.ketika kita drag si karakter lebih tinggi dari bottom screen.
     
     win.setBounds({
-      x: Math.round(dragStartX + dx),
-      y: Math.round(dragStartY + dy),
-      width: 300,
-      height: 300,  
+      x: Math.round(mouseX),
+      y: Math.round(mouseY),
+      width: 256,
+      height: 256,  
     })
   })
 
@@ -67,8 +87,8 @@ app.whenReady().then(() => {
 
     win.setBounds({
       x: x,
-      width: 300,
-      height: 300
+      width: 256,
+      height: 256
     })
   })
   
