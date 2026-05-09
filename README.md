@@ -5,6 +5,7 @@ Smart Buddy is a desktop companion app that lives on your screen, providing seve
 
 ### Features
 - Animated character (WIP and more animation will come)
+- Gravity Animation?
 - Pomodoro Timer (Coming soon)
 - Random quotes (Coming soon)
 - Simple chat bot with the animated character (Coming soon)
